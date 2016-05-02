@@ -13,7 +13,7 @@ A commandline utility / API to get subtitles from https://subscene.com/.
     - *Look for only subtitles that are rated good*.
 
 (d) **Subtitle for Hearing Impaired**
-    - *You can filter for subtitles that are for `hearing impaired` *  
+    - *Filter for subtitles that are for exclusively for `hearing impaired`*  
 
 (e) **Tags**
     - *Look for subtitles that matches any/all of those tags. E.g., '1080p', 'YIFY' etc.*
