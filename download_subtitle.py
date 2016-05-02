@@ -11,23 +11,6 @@ user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/
 hdr = {'User-Agent': user_agent}
 subscene_homepage = 'https://subscene.com'
 
-parser = argparse.ArgumentParser()
-parser.add_argument("-i", "--id", help='imdb ID (this or title is mandatory)')
-parser.add_argument("-t", "--title", help='movie / TV Series to search for... (this or IMDB-ID is mandatory )')
-parser.add_argument("-s", "--silent", action='store_true', help="Silent Mode Silently downloads if there's a perfect \
-                                match. No questions asked. Ignores if there are multiple matches - Default : False")
-parser.add_argument("-d", "--folder", help='where to save the subtitle. Default (in "~/Downloads/SubScenAPI/")', default=os.path.abspath(os.path.expanduser("~/Downloads/SubScenAPI/")))
-parser.add_argument("-l", "--lang", help='Get subtitle only in any of these languages - Default : "english, ")', default='english, ')
-parser.add_argument("-x", "--hear", action='store_true', help='Get subtitle for hearing impaired - Default : False')
-parser.add_argument("-n", "--top", type=int, help="display top_n results in case there are multiple results (e.g., 'Terminator') - Default: 10", default=10)
-parser.add_argument("-r", "--norate", action='store_false', help='get only positively rated subtitle - Default: True')
-parser.add_argument("--tags", help="Try to get the subtitle that matches these additional requirements.  E.g., ('720p', 'extended edition') etc. - Default : '1080p, yify' ", default='1080p, yify')
-parser.add_argument("-f", "--allTags", action='store_true', help='Force all tags to match - Default: False')
-
-args = parser.parse_args()
-if not (args.id or args.title):
-    parser.error('Need either IMDB ID or the title to search for.')
-
 class Subscene:
 
     def __init__(self, imdb_id=None, title=None, silent_download=False, hearing_impaired=False, top_n=10, \
@@ -269,7 +252,9 @@ class Subscene:
     def download_subtitle(self, imdb_id=None, title=None):
         """ Gets the subtitle file in ZIP file and stores it in the user specified folder """
 
-        assert imdb_id or title, 'Need either IMDB ID or something to search on subscene...'
+        if not (imdb_id or title):
+            print ('Need either IMDB ID or something to search on subscene...')
+            sys.exit(-1)
 
         year = None
         if imdb_id:
@@ -288,6 +273,25 @@ class Subscene:
 
 
 if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-i", "--id", help='imdb ID (this or title is mandatory)')
+    parser.add_argument("-t", "--title", help='movie / TV Series to search for... (this or IMDB-ID is mandatory )')
+    parser.add_argument("-s", "--silent", action='store_true', help="Silent Mode Silently downloads if there's a perfect \
+                                    match. No questions asked. Ignores if there are multiple matches - Default : False")
+    parser.add_argument("-d", "--folder", help='where to save the subtitle. Default (in "~/Downloads/SubScenAPI/")', default=os.path.abspath(os.path.expanduser("~/Downloads/SubScenAPI/")))
+    parser.add_argument("-l", "--lang", help='Get subtitle only in any of these languages - Default : "english, ")', default='english, ')
+    parser.add_argument("-x", "--hear", action='store_true', help='Get subtitle for hearing impaired - Default : False')
+    parser.add_argument("-n", "--top", type=int, help="display top_n results in case there are multiple results (e.g., 'Terminator') - Default: 10", default=10)
+    parser.add_argument("-r", "--norate", action='store_false', help='get only positively rated subtitle - Default: True')
+    parser.add_argument("--tags", help="Try to get the subtitle that matches these additional requirements.  E.g., ('720p', 'extended edition') etc. - Default : '1080p, yify' ", default='1080p, yify')
+    parser.add_argument("-f", "--allTags", action='store_true', help='Force all tags to match - Default: False')
+
+    args = parser.parse_args()
+    if not (args.id or args.title):
+        parser.error('Need either IMDB ID or the title to search for.')
+
+
     s = Subscene(download_folder=args.folder, silent_download=args.silent, language_preferences=args.lang, \
                  hearing_impaired=args.hear, top_n=args.top, only_rated=args.norate, tags=args.tags, \
                  enforce_all_tags=args.allTags)
