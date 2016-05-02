@@ -277,14 +277,19 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-i", "--id", help='imdb ID (this or title is mandatory)')
     parser.add_argument("-t", "--title", help='movie / TV Series to search for... (this or IMDB-ID is mandatory )')
-    parser.add_argument("-s", "--silent", action='store_true', help="Silent Mode Silently downloads if there's a perfect \
-                                    match. No questions asked. Ignores if there are multiple matches - Default : False")
-    parser.add_argument("-d", "--folder", help='where to save the subtitle. Default (in "~/Downloads/SubScenAPI/")', default=os.path.abspath(os.path.expanduser("~/Downloads/SubScenAPI/")))
-    parser.add_argument("-l", "--lang", help='Get subtitle only in any of these languages - Default : "english, ")', default='english, ')
+    parser.add_argument("-s", "--silent", action='store_true', help="Silent Mode Silently downloads if there's a  \
+                        perfect match. No questions asked. Ignores if there are multiple matches - Default : False")
+    parser.add_argument("-d", "--folder", help='where to save the subtitle. Default (in "~/Downloads/SubScenAPI/")', \
+                                            default=os.path.abspath(os.path.expanduser("~/Downloads/SubScenAPI/")))
+    parser.add_argument("-l", "--lang", help='Get subtitle only in any of these languages - Default : "english, ")', \
+                                            default='english, ')
     parser.add_argument("-x", "--hear", action='store_true', help='Get subtitle for hearing impaired - Default : False')
-    parser.add_argument("-n", "--top", type=int, help="display top_n results in case there are multiple results (e.g., 'Terminator') - Default: 10", default=10)
-    parser.add_argument("-r", "--norate", action='store_false', help='get only positively rated subtitle - Default: True')
-    parser.add_argument("--tags", help="Try to get the subtitle that matches these additional requirements.  E.g., ('720p', 'extended edition') etc. - Default : '1080p, yify' ", default='1080p, yify')
+    parser.add_argument("-n", "--top", type=int, help="display top_n results in case there are multiple results \
+                                            (e.g.,  'Terminator') - Default: 10", default=10)
+    parser.add_argument("-r", "--norate", action='store_false', help='get only positively rated subtitle - \
+                                            Default: True')
+    parser.add_argument("--tags", help="Try to get the subtitle that matches these additional requirements. \
+                            E.g., ('720p', 'extended edition') etc. - Default : '1080p, yify' ", default='1080p, yify')
     parser.add_argument("-f", "--allTags", action='store_true', help='Force all tags to match - Default: False')
 
     args = parser.parse_args()
