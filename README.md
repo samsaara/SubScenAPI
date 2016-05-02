@@ -1,5 +1,5 @@
 # SubScenAPI
-A commandline utility / API to get subtitles from https://subscene.com/.
+A commandline utility / API for the lazy ass to get subtitles from https://subscene.com/.
 
 **SubScenAPI** takes an *IMDB ID* or a *Movie / TV Series* name and gets it's subtitle from https://subscene.com... all from the comfort of your command line. In addition, it supports the following features:
 
