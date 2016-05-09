@@ -20,7 +20,7 @@ A commandline utility / API for the lazy ass to get subtitles from https://subsc
 
 
 # Requirements
-Needs Python 3 and Beautifulsoup.  Do `pip install -r requirements.txt`
+Needs Python 3 and [Beautifulsoup](https://www.crummy.com/software/BeautifulSoup/).  Do `pip install -r requirements.txt`
 
 # Examples:
 1. `$ python3 download_subtitle.py --title Interstellar`  # just the title  (displays a UI if there are multiple matches)
