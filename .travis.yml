@@ -8,7 +8,7 @@ python:
 cache: pip
 
 install:
-  - pip install --user beautifulsoup4
+  - pip install beautifulsoup4
 
 script: true
 
