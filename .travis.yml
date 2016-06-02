@@ -1,0 +1,17 @@
+language: python
+
+python:
+  - "3.3"
+  - "3.4"
+  - "3.5"
+
+cache: pip
+
+install:
+  - pip install --user beautifulsoup4
+
+script: true
+
+notifications:
+  email: false
+
