@@ -5,6 +5,9 @@ import os
 import sys
 import re
 import urllib.request
+import json
+import requests
+from string import punctuation
 from bs4 import BeautifulSoup as bs
 
 user_agent = "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7"
@@ -20,15 +23,17 @@ class Subscene:
         self.title = title
         self.silent_download = silent_download
         self.download_folder = os.path.abspath(download_folder)
-        language_preferences = [ x.strip() for x in language_preferences.split(',')]
-        self.language_preferences = [str.lower(lang) for lang in language_preferences]
+        self.language_preferences = [str.lower(lang.strip()) for lang in language_preferences]
         self.hearing_impaired = hearing_impaired
         self.only_rated = only_rated
-        tags = [ x.strip() for x in tags.split(',')]
-        self.tags = [str.lower(tag) for tag in tags]
+        self.tags = [str.lower(tag.strip()) for tag in tags]
         self.top_n = top_n
         self.enforce_all_tags = enforce_all_tags
-
+        try:
+            self.api_key = os.environ['OMDB_API_KEY']
+        except KeyError:
+            print('please save your OMDB API Key under "OMDB_API_KEY" env var')
+            raise
         if not os.path.exists(self.download_folder):
             os.mkdir(self.download_folder)
 
@@ -36,15 +41,17 @@ class Subscene:
     def get_title_and_year(self):
         """ Returns the title and year using the 'OMDB' API """
 
-        search_str = 'http://www.omdbapi.com/?i={}'.format(self.imdb_id)
+        search_str = 'http://www.omdbapi.com/?i={}&apikey={}'.format(self.imdb_id, self.api_key)
         try:
-            omdb_search = urllib.request.urlopen(urllib.request.Request(search_str, headers=hdr), timeout=5)
+            resp = requests.post(search_str)
         except Exception as e:
             print(e)
-            sys.exit(-1)
-
-        content = eval(omdb_search.read())
-        return content['Title'], content['Year']
+        
+        if resp.ok: 
+            content = json.loads(resp.content)
+            return content['Title'], content['Year']
+        else:
+            raise ValueError('error fetching data from IMDB')
 
 
     def get_redirection_link(self, search_str, movie_name, year):
@@ -262,8 +269,9 @@ class Subscene:
             title, year = self.get_title_and_year()
 
         self.title = title
-        self.title = '+'.join(self.title.split())
-        search_str = '{}/subtitles/title?q={}'.format(subscene_homepage, self.title)
+        punc_stripped = title.translate(str.maketrans('', '', punctuation))
+        self.title = '-'.join(punc_stripped.split())
+        search_str = '{}/subtitles/{}'.format(subscene_homepage, self.title)
 
         # get the link of the matching query
         redirect_link = self.get_redirection_link(search_str, self.title, year)
