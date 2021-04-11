@@ -270,7 +270,7 @@ class Subscene:
 
         self.title = title
         punc_stripped = title.translate(str.maketrans('', '', punctuation))
-        self.title = '-'.join(punc_stripped.split())
+        self.title = '-'.join(punc_stripped.split()).lower()
         search_str = '{}/subtitles/{}'.format(subscene_homepage, self.title)
 
         # get the link of the matching query
