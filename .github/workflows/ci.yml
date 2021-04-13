@@ -27,7 +27,7 @@ jobs:
     # use poetry instead of default pip
     - name: Install dependencies
       uses: Gr1N/setup-poetry@v4
-      run: poetry install
+    - run: poetry install
 
     - name: run tests with pytest
       run: |
