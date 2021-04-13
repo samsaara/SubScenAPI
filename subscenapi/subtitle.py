@@ -48,12 +48,17 @@ class Subscene:
             resp = requests.post(search_str)
         except Exception as e:
             print(e)
+            raise
         
         if resp.ok: 
-            content = json.loads(resp.content)
-            return content['Title'], content['Year']
+            try:
+                content = json.loads(resp.content)
+                return content['Title'], content['Year']
+            except KeyError:
+                print('invalid imdb_id')
+                raise
         else:
-            raise ValueError('error fetching data from IMDB')
+            raise ValueError('error fetching data')
 
 
     def get_redirection_link(self, search_str):
@@ -85,7 +90,7 @@ class Subscene:
         resp = requests.get(redirect_link)
         if not resp.ok:
             raise ValueError('error fetching data')
-        filename = f'{self.title}_subtitles_english.zip'
+        filename = f'data/{self.title}_subtitles_english.zip'
         with open(filename, 'wb') as fl:
             fl.write(resp.content)
         zip_ref = ZipFile(filename, 'r')
@@ -122,15 +127,3 @@ class Subscene:
         self._get_file(redirect_link)
 
 
-if __name__ == '__main__':
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-i", "--id", help='imdb ID (this or title is mandatory)')
-    parser.add_argument("-t", "--title", help='movie / TV Series to search for... (this or IMDB-ID is mandatory )')
-    args = parser.parse_args()
-    if not (args.id or args.title):
-        parser.error('Need either IMDB ID or the title to search for.')
-
-
-    s = Subscene()
-    s.download_subtitle(imdb_id=args.id, title=args.title)
