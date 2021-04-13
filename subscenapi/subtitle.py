@@ -36,7 +36,7 @@ class Subscene:
             print('please save your OMDB API Key under "OMDB_API_KEY" env var')
             raise
         if not os.path.exists(self.download_folder):
-            os.mkdir(self.download_folder)
+            os.makedirs(self.download_folder, exist_ok=True)
 
 
     def get_title_and_year(self):
@@ -90,13 +90,16 @@ class Subscene:
         resp = requests.get(redirect_link)
         if not resp.ok:
             raise ValueError('error fetching data')
-        filename = f'data/{self.title}_subtitles_english.zip'
+        filename = f'{self.download_folder}/{self.title}_subtitles_english.zip'
         with open(filename, 'wb') as fl:
             fl.write(resp.content)
+
+        # deflate zip file
         zip_ref = ZipFile(filename, 'r')
         zip_ref.extractall(filename[:-4])
         zip_ref.close()
 
+        # remove '.zip' file
         os.remove(filename)
         print(f'downloaded subtitles to "{os.path.abspath(filename[:-4])}" folder')
 
