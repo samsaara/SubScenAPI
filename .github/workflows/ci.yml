@@ -29,9 +29,7 @@ jobs:
       uses: Gr1N/setup-poetry@v4
     - run: poetry install
 
-    - name: run tests with pytest
-      with:
-          OMDB_API_KEY: ${{ secrets.OMDB_API_KEY }}
+    # run tests
     - run: |
-        poetry run python -m pytest
+        OMDB_API_KEY=${{ secrets.OMDB_API_KEY }} poetry run python -m pytest
 
