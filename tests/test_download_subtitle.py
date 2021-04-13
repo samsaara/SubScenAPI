@@ -15,7 +15,7 @@ def test_downloaded_subtitle():
     s = Subscene()
     valid_imdb_id = 'tt0368447'
     s.download_subtitle(imdb_id=valid_imdb_id)
-    filepath = 'data/the-village_subtitles_english'
+    filepath = f'{s.download_folder}/the-village_subtitles_english'
     assert os.path.exists(filepath)
 
     # cleanup
