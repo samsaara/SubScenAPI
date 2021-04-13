@@ -1,8 +1,6 @@
 # SubScenAPI
 A commandline utility / API for the lazy ass to get subtitles from [SubScene](https://subscene.com/) (https://subscene.com).
 
-[![Build Status](https://travis-ci.org/vaddina/SubScenAPI.svg?branch=master)](https://travis-ci.org/vaddina/SubScenAPI)
-
 **SubScenAPI** takes an *IMDB ID* or a *Movie / TV Series* name and gets it's subtitle from [SubScene](https://subscene.com/)... all from the comfort of your command line. In addition, it supports the following features:
 
 (a) **IMDB ID**
