@@ -24,7 +24,7 @@ jobs:
 
     - name: Install dependencies
       uses: Gr1N/setup-poetry@v4
-      run: poetry install
+    - run: poetry install
 
     - name: Test with pytest
       run: |
